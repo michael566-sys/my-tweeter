@@ -13,9 +13,22 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
+from rest_framework import routers
+from accounts.api.views import UserViewSet
+from accounts.api import views
+
+router = routers.DefaultRouter()
+# general idea: 把api/users 引导到ViewSet的文件里面去
+router.register(r'api/users', UserViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    #这个负责首页的显示
+    path('', include(router.urls)),
+    # this line is copied from:
+    # https://www.django-rest-framework.org/tutorial/quickstart/#:~:text=path(%27api%2Dauth/%27%2C%20include(%27rest_framework.urls%27%2C%20namespace%3D%27rest_framework%27))
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
