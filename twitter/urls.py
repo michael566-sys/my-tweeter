@@ -17,12 +17,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
-from accounts.api.views import UserViewSet
+from accounts.api.views import UserViewSet, AccountViewSet
 from accounts.api import views
 
 router = routers.DefaultRouter()
 # general idea: 把api/users 引导到ViewSet的文件里面去
 router.register(r'api/users', UserViewSet)
+router.register(r'api/accounts', AccountViewSet, basename='accounts')
+# base name same as 根目录名字
 
 urlpatterns = [
     path('admin/', admin.site.urls),
